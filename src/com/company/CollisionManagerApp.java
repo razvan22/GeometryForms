@@ -1,10 +1,11 @@
 package com.company;
 
+import com.company.figures.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionManagerApp {
-
     private final int RUN_APP = 1;
     private final int EXIT = 0;
     private int choiceMade = -1;
@@ -13,7 +14,7 @@ public class CollisionManagerApp {
     private  Bord bord ;
     private List<GeometricFigure> figureList = new ArrayList<>();
 
-    public CollisionManagerApp() throws ClassNotFoundException {
+    public CollisionManagerApp()  {
 
             while (choiceMade != 0){
             displayOptions(option);
@@ -46,15 +47,17 @@ public class CollisionManagerApp {
 
         generateRandomFigures(4);
 
-
+        System.out.println(figureList.size());
+        figureList.size();
         for (GeometricFigure figure : figureList){
-          int count = 1 + figureList.indexOf(figure);
-            String className = figure.getClass().toString().substring(18,figure.getClass().toString().length())+"."+count;
-            System.out.println(className+"\n");
-            System.out.printf("point y : %d \n", (int)figure.startingPoint.getY());
-            System.out.printf("start point x : %d\n",(int) figure.startingPoint.getY());
-            System.out.printf("size y: %d \n",figure.getSize());
-            System.out.printf("size  x: %d\n\n",figure.getSize());
+
+//          int count = 1 + figureList.indexOf(figure);
+//            String className = figure.getClass().toString().substring(18,figure.getClass().toString().length())+"."+count;
+//            System.out.println(className+"\n");
+//            System.out.printf("point y : %d \n");
+//            System.out.printf("start point x : %d\n");
+//            System.out.printf("size y: %d \n",figure.getSize());
+//            System.out.printf("size  x: %d\n\n",figure.getSize());
         }
 
     }
@@ -62,7 +65,7 @@ public class CollisionManagerApp {
         int[] figuresId = {0,1,2,3};
         for (int i = 0; i < figureNumber ;i++){
 
-            int randomIndex = RandomSize.randomSize(2);
+            int randomIndex = RandomNr.randomIntRangeOf(3);
             switch (figuresId[randomIndex]){
                 case 1:
                     figureList.add(createNewSquare());
@@ -75,50 +78,61 @@ public class CollisionManagerApp {
                 break;
             }
         }
-
     }
+
     private Bord generateBord(){
         System.out.print("Write bord's size in mm :");
         int bordSize = UserInput.readInt();
         return bord = new Bord(bordSize,bordSize);
     }
+
     private Dot createNewDot(){
         StartingPoint startingPoint = new StartingPoint(bord.getHeight(),bord.getWeight());
         return  new Dot(startingPoint);
     }
+
     private Circle createNewCircle(){
-
         StartingPoint startingPoint = new StartingPoint(bord.getHeight(),bord.getWeight());
-        int radius = RandomSize.randomSize(bord.getWeight());
+        Circle circle = new Circle(startingPoint, RandomNr.randomDoubleRangeOf(bord.getWeight()));
 
-        boolean generateCircle = true;
-        while (generateCircle){
 
+        while (isCircleLargerThanTable(circle)){
             startingPoint = new StartingPoint(bord.getHeight(),bord.getWeight());
-            radius = RandomSize.randomSize(bord.getWeight());
+            circle = new Circle(startingPoint, RandomNr.randomDoubleRangeOf(bord.getWeight()));
+        }
+       return circle;
+    }
 
+    private boolean isCircleLargerThanTable(Circle circle){
 
+        double down =  circle.getStartingPointY() - circle.getSize();
+        double upp = circle.getStartingPointY() + circle.getSize();
 
-            while ((radius > startingPoint.getY())|| (radius > startingPoint.getX())){
-                radius = RandomSize.randomSize(bord.getWeight());
-            }
+        boolean isShapeBigger = false;
+        boolean isHigher = false;
+        boolean isWidth = false;
 
-            boolean isYBigger =  (radius + (int)startingPoint.getY()) > bord.getHeight();
-            boolean isXBigger = (radius + (int)  startingPoint.getX()) > bord.getWeight();
-
-            if (isYBigger || isXBigger ){
-                generateCircle = true;
-            }else {
-                generateCircle = false;
-            }
+        if ((down < 0 )||(upp > bord.getHeight())){
+            isHigher = true;
         }
 
-       return new Circle(startingPoint, radius);
+        double leftSide = circle.getStartingPointX() - circle.getSize();
+        double rightSide = circle.getStartingPointX() + circle.getSize();
+
+        if ((leftSide < 0 )||(rightSide > bord.getHeight())){
+            isWidth = true;
+        }
+
+        if (isHigher || isWidth){
+            isShapeBigger = true;
+        }
+
+        return  isShapeBigger;
     }
 
     private Square createNewSquare(){
         StartingPoint startingPoint = new StartingPoint(bord.getHeight(),bord.getWeight());
-        int squareSize = RandomSize.randomSize(bord.getWeight());
+        int squareSize = RandomNr.randomIntRangeOf(bord.getWeight());
         boolean isxBigger = bord.getWeight() > (squareSize + startingPoint.getX());
         boolean isyBigger = bord.getWeight() > (squareSize + startingPoint.getY());
 
@@ -126,7 +140,7 @@ public class CollisionManagerApp {
             boolean isBigger = true;
 
             while (isBigger){
-                squareSize = RandomSize.randomSize(bord.getWeight());
+                squareSize = RandomNr.randomIntRangeOf(bord.getWeight());
                 isxBigger = bord.getWeight() > (squareSize + startingPoint.getX());
                 isyBigger = bord.getWeight() > (squareSize + startingPoint.getY());
                 if ((!isxBigger) || (!isyBigger)||(squareSize < 1)){
@@ -142,10 +156,10 @@ public class CollisionManagerApp {
     private void displayOptions( MenuOption options){
             switch (options){
             case FIRST:
-                System.out.printf("1. Run App\n" + "0 EXIT\n");
+                System.out.printf("1. Run Collision Test\n" + "0 EXIT\n");
                 break;
             case SECOND:
-                System.out.printf("1.Repeat the Process\n" +
+                System.out.printf("1.Repeat Collision Test\n" +
                         "0 EXIT\n");
                 break;
         }

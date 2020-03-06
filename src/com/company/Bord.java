@@ -7,7 +7,7 @@ public class Bord {
     private int weight;
 
     public Bord(int height, int weight) {
-        if ((height < 1)&&(height > MAX_SIZE)||(weight < 1)&&(weight > MAX_SIZE)){
+        if ((height < 1) || (weight < 1) ){
            throw  new IllegalArgumentException("The minim size must be greater or equal with 1  ");
         }else {
             this.height = height;
@@ -21,13 +21,5 @@ public class Bord {
 
     public int getWeight() {
         return weight;
-    }
-
-    private void setHeight(int height) {
-        this.height = height;
-    }
-
-    private void setWeight(int weight) {
-        this.weight = weight;
     }
 }

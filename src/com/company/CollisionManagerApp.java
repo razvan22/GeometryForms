@@ -3,7 +3,9 @@ package com.company;
 import com.company.figures.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CollisionManagerApp {
     private final int RUN_APP = 1;
@@ -47,17 +49,12 @@ public class CollisionManagerApp {
 
         generateRandomFigures(4);
 
-        System.out.println(figureList.size());
         figureList.size();
+        Map<Integer,Double> figurePosition = new HashMap();
         for (GeometricFigure figure : figureList){
-
-//          int count = 1 + figureList.indexOf(figure);
-//            String className = figure.getClass().toString().substring(18,figure.getClass().toString().length())+"."+count;
-//            System.out.println(className+"\n");
-//            System.out.printf("point y : %d \n");
-//            System.out.printf("start point x : %d\n");
-//            System.out.printf("size y: %d \n",figure.getSize());
-//            System.out.printf("size  x: %d\n\n",figure.getSize());
+            figureList.indexOf(figure);
+            figure.getStartingPointY();
+            figure.getStartingPointX();
         }
 
     }
@@ -105,8 +102,8 @@ public class CollisionManagerApp {
 
     private boolean isCircleLargerThanTable(Circle circle){
 
-        double down =  circle.getStartingPointY() - circle.getSize();
-        double upp = circle.getStartingPointY() + circle.getSize();
+        double down =  circle.getStartingPointY() - circle.getRadius();
+        double upp = circle.getStartingPointY() + circle.getRadius();
 
         boolean isShapeBigger = false;
         boolean isHigher = false;
@@ -116,8 +113,8 @@ public class CollisionManagerApp {
             isHigher = true;
         }
 
-        double leftSide = circle.getStartingPointX() - circle.getSize();
-        double rightSide = circle.getStartingPointX() + circle.getSize();
+        double leftSide = circle.getStartingPointX() - circle.getRadius();
+        double rightSide = circle.getStartingPointX() + circle.getRadius();
 
         if ((leftSide < 0 )||(rightSide > bord.getHeight())){
             isWidth = true;

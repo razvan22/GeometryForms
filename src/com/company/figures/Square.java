@@ -6,4 +6,23 @@ public class Square extends GeometricFigure {
         super(startingPoint, y, x);
     }
 
+    @Override
+    public double getXStartingValue() {
+        return getStartingPointX();
+    }
+
+    @Override
+    public double getXEndingValue() {
+        return getStartingPointX() + getX();
+    }
+
+    @Override
+    public double getYStartingValue() {
+        return getStartingPointY();
+    }
+
+    @Override
+    public double getYEndingValue() {
+        return getStartingPointY() + getY();
+    }
 }

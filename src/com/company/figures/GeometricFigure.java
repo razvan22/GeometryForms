@@ -1,5 +1,7 @@
 package com.company.figures;
 
+import com.company.Bord;
+
 public abstract class GeometricFigure implements Comparable<GeometricFigure>, FigurePosition{
 
     StartingPoint startingPoint;
@@ -37,7 +39,16 @@ public abstract class GeometricFigure implements Comparable<GeometricFigure>, Fi
     }
 
     @Override
-    public int compareTo(GeometricFigure o) {
+    public int compareTo(GeometricFigure figure) {
+        boolean xStart =  this.getXStartingValue() < figure.getXStartingValue();
+        boolean xEnd = this.getXEndingValue() < figure.getXEndingValue();
+
+        boolean yStart = this.getYStartingValue() < figure.getYStartingValue();
+        boolean yEnd = this.getYEndingValue() < figure.getYEndingValue();
+
+        if (xStart || xEnd){
+            return 1;
+        }
         return 0;
     }
 
@@ -59,5 +70,27 @@ public abstract class GeometricFigure implements Comparable<GeometricFigure>, Fi
     @Override
     public double getYEndingValue() {
         return 0;
+    }
+}
+class Test{
+    public static void main(String[] args) {
+        Bord bord = new Bord(100,100);
+        StartingPoint startingPoint = new StartingPoint(100,100);
+        Square square = new Square(startingPoint,20,20);
+        Circle circle = new Circle(startingPoint,3);
+
+        System.out.println("Square start x att: "+square.getXStartingValue()+
+                " end x att: "+square.getXEndingValue());
+
+        System.out.println("Square start y att: "+square.getYStartingValue()+
+                " end y att: "+square.getYEndingValue());
+
+
+        System.out.println("\nCircle start x att: "+circle.getXStartingValue()+
+                " end x att: "+circle.getXEndingValue());
+
+        System.out.println("Circle start y att: "+circle.getYStartingValue()+
+                " end y att: "+circle.getYEndingValue());
+
     }
 }

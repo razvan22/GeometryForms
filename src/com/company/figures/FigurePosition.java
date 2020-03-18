@@ -6,5 +6,4 @@ public interface FigurePosition {
     double getYStartingValue();
     double getYEndingValue();
 
-
 }

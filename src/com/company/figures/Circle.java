@@ -1,7 +1,7 @@
 package com.company.figures;
 
 public class Circle extends GeometricFigure {
-    public Circle(StartingPoint startingPoint, double radius) {
+    public Circle( StartingPoint startingPoint, double radius) {
         super(startingPoint, radius);
     }
 

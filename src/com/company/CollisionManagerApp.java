@@ -2,10 +2,8 @@ package com.company;
 
 import com.company.figures.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class CollisionManagerApp {
     private final int RUN_APP = 1;
@@ -23,13 +21,16 @@ public class CollisionManagerApp {
             choiceMade =  UserInput.readInt();
 
             switch (choiceMade){
+
                 case RUN_APP:
-                runCollisionTest();
+                    runCollisionTest();
                 break;
+
                 case EXIT:
                     exitMassage();
                     choiceMade = 0;
                 break;
+
                 default:
                     notValidMassage();
                 break;
@@ -38,26 +39,22 @@ public class CollisionManagerApp {
         }
     }
     private void runCollisionTest(){
-
-        bord = new Bord(100,100);
         figureList.clear();
-//        createNewCircle();
-//        System.out.printf("radius is : %d \n",(int)createNewCircle().getRadius());
-//        System.out.printf("point x : %d \n", (int)createNewCircle().getStartingPoint().getX());
-//        System.out.printf("point y : %d\n", (int)createNewCircle().getStartingPoint().getY());
+        generateBord();
 
+        System.out.printf("Write the number of figures to be generated :");
+        generateRandomFigures(UserInput.readInt());
 
-        generateRandomFigures(4);
-
-        figureList.size();
-        Map<Integer,Double> figurePosition = new HashMap();
-        for (GeometricFigure figure : figureList){
-            figureList.indexOf(figure);
-            figure.getStartingPointY();
-            figure.getStartingPointX();
+        for (GeometricFigure figure: figureList) {
+            int listElements = figureList.size();
+            for (int i = 0; i < listElements; i++){
+                if (figure != figureList.get(i)){
+                    figure.compareTo(figureList.get(i));
+                }
+            }
         }
-
     }
+
     private void generateRandomFigures(int figureNumber){
         int[] figuresId = {0,1,2,3};
         for (int i = 0; i < figureNumber ;i++){
@@ -78,7 +75,7 @@ public class CollisionManagerApp {
     }
 
     private Bord generateBord(){
-        System.out.print("Write bord's size in mm :");
+        System.out.printf("Write bord's size in mm :");
         int bordSize = UserInput.readInt();
         return bord = new Bord(bordSize,bordSize);
     }
